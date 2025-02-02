@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <title>AfterTV Player</title>
+    
+    <link rel="icon" href="assets/favicon.svg" sizes="any" type="image/svg+xml">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.12.6/controls.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/style.css">
+    
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.12.6/shaka-player.ui.min.js"></script>
+    <script defer src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js"></script>
+    <script defer src="scripts/player.js"></script>
+</head>
+
+<body>
+    <h1 onclick="location.reload()">AfterTV Player</h1>
+    <div id="video-container" data-shaka-player-container data-shaka-player-cast-receiver-id="07AEE832">
+        <video id="video" autoplay data-shaka-player></video>
+    </div>
+
+    <div id="channels-list"></div>
+
+    <button id="settings-btn" onclick="openSettings()">⚙️</button>
+    <div id="settings-modal">
+        <h2>Settings</h2>
+        <label for="api-url">API URL:</label>
+        <input type="text" id="api-url" placeholder="Channels API URL">
+        <button id="save-settings" onclick="saveSettings()">Save</button>
+    </div>
+</body>
+</html>
