@@ -29,13 +29,22 @@ video {
     border-radius: 10px;
 }
 
-/* Channel List */
-#channels-list {
-    margin-top: 20px;
+/* Category Section */
+.category {
+    padding: 10px;
+}
+
+.category h3 {
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+}
+
+/* Channels inside categories */
+.channels-container {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 5px;
 }
 
 button {
@@ -43,7 +52,7 @@ button {
     color: white;
     border: none;
     padding: 10px 20px;
-    font-size: 1rem;
+    font-size: 0.9rem;
     border-radius: 5px;
     cursor: pointer;
     transition: all 0.3s ease-in-out;

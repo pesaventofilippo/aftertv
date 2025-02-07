@@ -11,7 +11,7 @@ async function init() {
     player = controls.getPlayer();
 
     await applyStyle();
-    await loadChannels();
+    await loadCategories();
 }
 
 
@@ -77,18 +77,39 @@ async function applyStyle() {
 }
 
 
-async function loadChannels() {
+async function loadCategories() {
     const channelsList = document.getElementById('channels-list');
-    const response = await fetch(`${API_URL}/channels`);
-    const channels = await response.json();
+    channelsList.innerHTML = "";
 
-    for (const channel of channels) {
-        const button = document.createElement('button');
+    const response = await fetch(`${API_URL}/categories`);
+    const categories = await response.json();
+    
+    for (const category of categories) {
+        const categoryDiv = document.createElement("div");
+        categoryDiv.classList.add("category");
+        categoryDiv.innerHTML = `<h3>${category.name}</h3>`;
+        
+        const channelsContainer = document.createElement("div");
+        channelsContainer.classList.add("channels-container");
+        categoryDiv.appendChild(channelsContainer);
+        channelsList.appendChild(categoryDiv);
+        
+        await loadChannels(category.id, channelsContainer);
+    }
+}
+
+
+async function loadChannels(categoryId, container) {
+    const response = await fetch(`${API_URL}/categories/${categoryId}`);
+    const data = await response.json();
+    const borderColor = data.color;
+
+    for (const channel of data.channels) {
+        const button = document.createElement("button");
         button.textContent = channel.name;
-        button.addEventListener('click', () => {
-            loadChannel(channel.id);
-        });
-        channelsList.appendChild(button);
+        button.style.border = `1px solid ${borderColor}`;
+        button.addEventListener("click", () => loadChannel(channel.id));
+        container.appendChild(button);
     }
 }
 
@@ -96,7 +117,7 @@ async function loadChannels() {
 async function loadChannel(channelId) {
     const response = await fetch(`${API_URL}/channels/${channelId}`);
     const channel = await response.json();
-    
+
     player.configure({
         drm: {
             clearKeys: {
@@ -106,10 +127,7 @@ async function loadChannel(channelId) {
     });
 
     await player.load(channel.manifest).then(() => {
-        console.log('Loaded channel:', channel.name, "| Is live:", player.isLive());
         document.title = `${channel.name} | AfterTV Player`;
-    }).catch((error) => {
-        console.error('Error loading channel:', error);
     });
 }
 
