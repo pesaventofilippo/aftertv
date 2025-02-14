@@ -118,14 +118,16 @@ async function loadChannel(channelId) {
     const response = await fetch(`${API_URL}/channels/${channelId}`);
     const channel = await response.json();
 
-    player.configure({
-        drm: {
-            clearKeys: {
-                [channel.stream_id]: channel.stream_key
+    if (channel.type === "clearkey") {
+        player.configure({
+            drm: {
+                clearKeys: {
+                    [channel.stream_id]: channel.stream_key
+                }
             }
-        }
-    });
-
+        });
+    }
+    
     await player.load(channel.manifest).then(() => {
         document.title = `${channel.name} | AfterTV Player`;
     });
@@ -142,6 +144,13 @@ function saveSettings() {
     let api_url = document.getElementById("api-url").value;
     localStorage.setItem("AFTERTV_API_URL", api_url);
     location.reload();
+}
+
+
+function dload(url) {
+    player.load(url).then(() => {
+        document.title = `DEBUG | AfterTV Player`;
+    });
 }
 
 
