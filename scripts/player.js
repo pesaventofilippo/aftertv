@@ -231,15 +231,4 @@ function saveSettings() {
   }
 }
 
-function dload(url) {
-  player.load(url).then(() => {
-    document.title = `DEBUG | AfterTV Player`;
-  });
-}
-
 document.addEventListener("shaka-ui-loaded", init);
-document.addEventListener("DOMContentLoaded", () => {
-  if (!API_URL && !data) {
-    openSettings();
-  }
-});
