@@ -27,7 +27,10 @@
     <div id="settings-modal">
         <h2>Settings</h2>
         <label for="api-url">API URL:</label>
-        <input type="text" id="api-url" placeholder="Channels API URL">
+        <input type="text" id="api-url" placeholder="Channels API URL" />
+        <br />
+        <label for="json-file">Or upload JSON file:</label>
+        <input type="file" id="json-file" accept=".json" />
         <button id="save-settings" onclick="saveSettings()">Save</button>
     </div>
 </body>
