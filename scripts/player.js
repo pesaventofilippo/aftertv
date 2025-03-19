@@ -21,6 +21,14 @@ async function init() {
   } else {
     openSettings();
   }
+
+  video.addEventListener("enterpictureinpicture", () => {
+    if (video.paused) {
+      video.play().catch((error) => {
+        console.error("Error playing video:", error);
+      });
+    }
+  });
 }
 
 async function applyStyle() {
@@ -189,9 +197,9 @@ async function loadChannelFromJSON(channelId) {
 }
 
 function openSettings() {
-    document.getElementById("settings-modal").style.display = "block";
-    document.getElementById("api-url").value = API_URL;
-    document.getElementById("json-file").value = "";
+  document.getElementById("settings-modal").style.display = "block";
+  document.getElementById("api-url").value = API_URL;
+  document.getElementById("json-file").value = "";
 }
 
 function saveSettings() {
