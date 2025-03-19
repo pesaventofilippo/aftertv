@@ -202,6 +202,12 @@ function openSettings() {
   document.getElementById("json-file").value = "";
 }
 
+function clearSettings() {
+    localStorage.removeItem("AFTERTV_API_URL");
+    localStorage.removeItem("AFTERTV_JSON_DATA");
+    location.reload();
+}
+
 function saveSettings() {
   const api_url = document.getElementById("api-url").value;
   const jsonFile = document.getElementById("json-file").files[0];
