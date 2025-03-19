@@ -220,6 +220,9 @@ function saveSettings() {
     };
     reader.readAsText(jsonFile);
   }
+  else {
+    document.getElementById("settings-modal").style.display = "none";
+  }
 }
 
 function dload(url) {
