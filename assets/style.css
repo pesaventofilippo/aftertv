@@ -24,6 +24,10 @@ h1 {
     overflow: hidden;
 }
 
+#video-container:fullscreen {
+    background-color: black;
+}
+
 video {
     width: 100%;
     border-radius: 10px;
