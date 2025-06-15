@@ -12,7 +12,8 @@ async function init() {
   controls = ui.getControls();
   player = controls.getPlayer();
 
-  await applyStyle();
+  await applyUiConfig();
+  await applyPlayerConfig();
 
   if (API_URL) {
     await loadCategoriesFromAPI();
@@ -21,17 +22,9 @@ async function init() {
   } else {
     openSettings();
   }
-
-  video.addEventListener("enterpictureinpicture", () => {
-    if (video.paused) {
-      video.play().catch((error) => {
-        console.error("Error playing video:", error);
-      });
-    }
-  });
 }
 
-async function applyStyle() {
+async function applyUiConfig() {
   ui.configure({
     seekBarColors: {
       base: "rgba(54, 20, 112, 0.3)",
@@ -111,6 +104,25 @@ async function applyStyle() {
         event.preventDefault();
         openSettings();
         break;
+    }
+  });
+}
+
+async function applyPlayerConfig() {
+    video.addEventListener("enterpictureinpicture", () => {
+    if (video.paused) {
+      video.play().catch((error) => {
+        console.error("Error playing video:", error);
+      });
+    }
+  });
+
+  player.configure({
+    streaming: {
+      lowLatencyMode: true,
+      bufferBehind: 120,
+      bufferingGoal: 300,
+      rebufferingGoal: 0
     }
   });
 }
