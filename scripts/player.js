@@ -165,13 +165,12 @@ async function loadChannel(channelId) {
     }
 
     if (channel.type === "clearkey") {
-      player.configure({
-        drm: {
-          clearKeys: {
-            [channel.stream_id]: channel.stream_key,
-          },
-        },
+      player.configure("drm.clearKeys", {
+        [channel.stream_id]: channel.stream_key,
       });
+    }
+    else if (channel.type === "m3u") {
+      player.configure("drm.clearKeys", {});
     }
     else {
       throw new Error(`Unsupported channel type: ${channel.type}`);
