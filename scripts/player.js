@@ -22,6 +22,10 @@ async function init() {
   } else {
     openSettings();
   }
+
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js');
+  }
 }
 
 async function applyUiConfig() {
