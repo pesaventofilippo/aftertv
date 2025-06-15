@@ -58,35 +58,38 @@ h1 {
 .channels-container button {
     background-color: #361470;
     color: white;
-    border: none;
+    border: 2px solid white;
     padding: 10px 20px;
     font-size: 0.9rem;
     border-radius: 10px;
     cursor: pointer;
-    transition: all 0.3s ease-in-out;
+    transition: all 0.2s ease-in-out;
 }
 
 .channels-container button:hover {
     background-color: #4a2e8b;
+    transform: scale(1.02);
 }
 
 /* Settings */
 #settings-btn {
+    background-color: #361470;
+    color: white;
+    border: 2px solid white;
+    padding: 10px 15px;
+    font-size: 0.9rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background: #361470;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background 0.3s ease;
 }
 
 #settings-btn:hover {
-    background: #4a2e8b;
+    background-color: #4a2e8b;
+    transform: scale(1.02);
 }
 
 #settings-modal {

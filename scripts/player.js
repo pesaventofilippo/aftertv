@@ -44,6 +44,7 @@ async function applyStyle() {
       level: "rgba(54, 20, 112, 0.9)",
     },
     preferDocumentPictureInPicture: false,
+    enableKeyboardPlaybackControls: false,   
     
     controlPanelElements: [
       "play_pause",
@@ -65,6 +66,52 @@ async function applyStyle() {
       "playback_rate",
       "statistics"
     ],
+  });
+
+  // Keyboard controls
+  videoContainer = document.getElementById("video-container");
+  document.addEventListener("keydown", (event) => {
+    switch (event.key) {
+      case " ":
+      case "k":
+        event.preventDefault();
+        video.paused ? video.play() : video.pause();
+        break;
+      case "f":
+        event.preventDefault();
+        !!document.fullscreenElement ? document.exitFullscreen() : videoContainer.requestFullscreen();
+        break;
+      case "p":
+        event.preventDefault();
+        !!document.pictureInPictureElement ? document.exitPictureInPicture() : video.requestPictureInPicture();
+        break;
+      case "m":
+        event.preventDefault();
+        video.muted = !video.muted;
+        break;
+      case "ArrowLeft":
+      case "j":
+        event.preventDefault();
+        video.currentTime -= 10;
+        break;
+      case "ArrowRight":
+      case "l":
+        event.preventDefault();
+        video.currentTime += 10;
+        break;
+      case "ArrowUp":
+        event.preventDefault();
+        video.volume = Math.min(video.volume+0.1, 1);
+        break;
+      case "ArrowDown":
+        event.preventDefault();
+        video.volume = Math.max(video.volume-0.1, 0);
+        break;
+      case "s":
+        event.preventDefault();
+        openSettings();
+        break;
+    }
   });
 }
 
@@ -92,12 +139,11 @@ async function loadCategoriesFromAPI() {
 async function loadChannelsFromAPI(categoryId, container) {
   const response = await fetch(`${API_URL}/categories/${categoryId}`);
   const data = await response.json();
-  const borderColor = data.color;
 
   for (const channel of data.channels) {
     const button = document.createElement("button");
     button.textContent = channel.name;
-    button.style.border = `2px solid ${borderColor}`;
+    button.style.borderColor = data.color;
     button.addEventListener("click", () => loadChannelFromAPI(channel.id));
     container.appendChild(button);
   }
@@ -141,12 +187,10 @@ async function loadCategoriesFromJSON() {
 }
 
 function loadChannelsFromJSON(category, container) {
-  const borderColor = category.color;
-
   for (const channel of category.channels) {
     const button = document.createElement("button");
     button.textContent = channel.name;
-    button.style.border = `2px solid ${borderColor}`;
+    button.style.borderColor = category.color;
     button.addEventListener("click", () => loadChannelFromJSON(channel.id));
     container.appendChild(button);
   }
