@@ -2,7 +2,7 @@
     "name": "AfterTV Player",
     "short_name": "AfterTV",
     "description": "A custom stream player for DASH clearKey streams",
-    "start_url": "/",
+    "start_url": "/aftertv/",
     "display": "standalone",
     "background_color": "#181818",
     "theme_color": "#361470",
