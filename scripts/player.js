@@ -40,48 +40,31 @@ async function applyStyle() {
     },
     seekOnTaps: true,
     volumeBarColors: {
-      base: "rgba(54, 20, 112, 0.54)",
-      level: "rgba(54, 20, 112, 1)",
+      base: "rgba(54, 20, 112, 0.6)",
+      level: "rgba(54, 20, 112, 0.9)",
     },
     preferDocumentPictureInPicture: false,
-  });
+    
+    controlPanelElements: [
+      "play_pause",
+      "mute",
+      "volume",
+      "time_and_duration",
+      "spacer",
+      "picture_in_picture",
+      "airplay",
+      "cast",
+      "remote",
+      "overflow_menu",
+      "fullscreen"
+    ],
 
-  const timeStep = 10;
-  const volumeStep = 0.05;
-  document.addEventListener("keydown", (e) => {
-    switch (e.key) {
-      case " ":
-        e.preventDefault();
-        video.paused ? video.play() : video.pause();
-        break;
-      case "ArrowUp":
-        e.preventDefault();
-        try {
-          video.volume += volumeStep;
-        } catch {
-          video.volume = 1;
-        }
-        break;
-      case "ArrowDown":
-        e.preventDefault();
-        try {
-          video.volume -= volumeStep;
-        } catch {
-          video.volume = 0;
-        }
-        break;
-      case "ArrowLeft":
-        e.preventDefault();
-        video.currentTime -= timeStep;
-        break;
-      case "ArrowRight":
-        video.currentTime += timeStep;
-        break;
-      case "m":
-        e.preventDefault();
-        video.muted = !video.muted;
-        break;
-    }
+    overflowMenuButtons: [
+      "quality",
+      "language",
+      "playback_rate",
+      "statistics"
+    ],
   });
 }
 
@@ -114,7 +97,7 @@ async function loadChannelsFromAPI(categoryId, container) {
   for (const channel of data.channels) {
     const button = document.createElement("button");
     button.textContent = channel.name;
-    button.style.border = `1px solid ${borderColor}`;
+    button.style.border = `2px solid ${borderColor}`;
     button.addEventListener("click", () => loadChannelFromAPI(channel.id));
     container.appendChild(button);
   }
@@ -163,7 +146,7 @@ function loadChannelsFromJSON(category, container) {
   for (const channel of category.channels) {
     const button = document.createElement("button");
     button.textContent = channel.name;
-    button.style.border = `1px solid ${borderColor}`;
+    button.style.border = `2px solid ${borderColor}`;
     button.addEventListener("click", () => loadChannelFromJSON(channel.id));
     container.appendChild(button);
   }

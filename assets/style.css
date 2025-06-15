@@ -16,10 +16,10 @@ h1 {
 /* Video Container */
 #video-container {
     width: 90%;
-    max-width: 800px;
+    max-width: 900px;
     margin: auto;
-    background: #1e1e1e;
     border-radius: 10px;
+    background: #1e1e1e;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
     overflow: hidden;
 }
@@ -28,10 +28,13 @@ h1 {
     background-color: black;
 }
 
+.shaka-controls-button-panel button:hover {
+    transform: scale(1.05);
+}
+
 #video {
     width: 100%;
     height: 100%;
-    border-radius: 10px;
 }
 
 /* Category Section */
@@ -52,18 +55,18 @@ h1 {
     gap: 5px;
 }
 
-button {
-    background-color: #362070;
+.channels-container button {
+    background-color: #361470;
     color: white;
     border: none;
     padding: 10px 20px;
     font-size: 0.9rem;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
 }
 
-button:hover {
+.channels-container button:hover {
     background-color: #4a2e8b;
 }
 
@@ -72,11 +75,11 @@ button:hover {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background: #362070;
+    background: #361470;
     color: white;
     padding: 10px 15px;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
     font-size: 1rem;
     transition: background 0.3s ease;
@@ -112,7 +115,7 @@ button:hover {
 }
 
 #settings-modal button {
-    background: #362070;
+    background: #361470;
     color: white;
     padding: 10px 15px;
     border: none;
