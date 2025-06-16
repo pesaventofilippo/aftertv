@@ -119,11 +119,12 @@ async function applyPlayerConfig() {
   });
 
   player.configure({
-    streaming: {
-      lowLatencyMode: true,
-      bufferBehind: 120,
-      bufferingGoal: 300,
-      rebufferingGoal: 0
+    abr: {
+      enabled: true,
+      clearBufferSwitch: true,
+      restrictions: {
+        minHeight: 1080
+      }
     }
   });
 }
