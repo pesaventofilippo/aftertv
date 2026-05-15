@@ -37,7 +37,9 @@ async function applyUiConfig() {
       base: "rgba(54, 20, 112, 0.6)",
       level: "rgba(54, 20, 112, 0.9)",
     },
-    preferDocumentPictureInPicture: false,
+    documentPictureInPicture: {
+      enabled: true
+    },
     enableKeyboardPlaybackControls: false,   
     
     controlPanelElements: [
@@ -47,7 +49,6 @@ async function applyUiConfig() {
       "time_and_duration",
       "spacer",
       "picture_in_picture",
-      "airplay",
       "cast",
       "remote",
       "overflow_menu",
@@ -123,7 +124,8 @@ async function applyPlayerConfig() {
       enabled: true,
       clearBufferSwitch: true,
       restrictions: {
-        minHeight: 1080
+        minHeight: 720,
+        maxHeight: 1080
       }
     }
   });
@@ -152,19 +154,13 @@ function loadChannels(category, container) {
     const button = document.createElement("button");
     button.textContent = channel.name;
     button.style.borderColor = category.color;
-    button.addEventListener("click", () => loadChannel(channel.id));
+    button.addEventListener("click", () => loadChannel(channel));
     container.appendChild(button);
   }
 }
 
-async function loadChannel(channelId) {
+async function loadChannel(channel) {
   try {
-    const channel = data.channels.find((c) => c.id === channelId);
-
-    if (!channel) {
-      throw new Error(`Channel with ID ${channelId} not found.`);
-    }
-
     if (channel.type === "clearkey") {
       player.configure("drm.clearKeys", {
         [channel.stream_id]: channel.stream_key,
