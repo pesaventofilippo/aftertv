@@ -1,15 +1,12 @@
 const JSON_DATA = localStorage.getItem("AFTERTV_JSON_DATA");
 let data = JSON_DATA ? JSON.parse(JSON_DATA) : null;
-let video,
-  ui,
-  controls,
-  player = null;
+let video, ui, player = null;
 
 async function init() {
+  shaka.polyfill.installAll();
   video = document.getElementById("video");
   ui = video.ui;
-  controls = ui.getControls();
-  player = controls.getPlayer();
+  player = ui.getControls().getPlayer();
 
   await applyUiConfig();
   await applyPlayerConfig();
@@ -20,13 +17,16 @@ async function init() {
     openSettings();
   }
 
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('service-worker.js');
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("service-worker.js");
   }
 }
 
 async function applyUiConfig() {
   ui.configure({
+    "castReceiverAppId": "07AEE832",
+    "castAndroidReceiverCompatible": true,
+
     seekBarColors: {
       base: "rgba(54, 20, 112, 0.3)",
       buffered: "rgba(54, 20, 112, 0.6)",
@@ -37,8 +37,8 @@ async function applyUiConfig() {
       base: "rgba(54, 20, 112, 0.6)",
       level: "rgba(54, 20, 112, 0.9)",
     },
-    documentPictureInPicture: {
-      enabled: true
+    "documentPictureInPicture": { 
+      "enabled": false 
     },
     enableKeyboardPlaybackControls: false,   
     
@@ -64,8 +64,10 @@ async function applyUiConfig() {
   });
 
   // Keyboard controls
-  videoContainer = document.getElementById("video-container");
+  const videoContainer = document.getElementById("video-container");
   document.addEventListener("keydown", (event) => {
+    const activeElement = document.activeElement.tagName.toLowerCase();
+    if (activeElement === "input" || activeElement === "textarea") { return; }
     switch (event.key) {
       case " ":
       case "k":
@@ -122,10 +124,10 @@ async function applyPlayerConfig() {
   player.configure({
     abr: {
       enabled: true,
-      clearBufferSwitch: true,
+      switchInterval: 5,
       restrictions: {
         minHeight: 720,
-        maxHeight: 1080
+        maxHeight: 2160
       }
     }
   });
@@ -145,11 +147,11 @@ async function loadCategories() {
     categoryDiv.appendChild(channelsContainer);
     channelsList.appendChild(categoryDiv);
 
-    loadChannels(category, channelsContainer);
+    await loadChannels(category, channelsContainer);
   }
 }
 
-function loadChannels(category, container) {
+async function loadChannels(category, container) {
   for (const channel of category.channels) {
     const button = document.createElement("button");
     button.textContent = channel.name;
@@ -160,17 +162,16 @@ function loadChannels(category, container) {
 }
 
 async function loadChannel(channel) {
+  player.configure("drm.clearKeys", {});
   try {
     if (channel.type === "clearkey") {
       player.configure("drm.clearKeys", {
         [channel.stream_id]: channel.stream_key,
       });
     }
-    else if (channel.type === "m3u") {
-      player.configure("drm.clearKeys", {});
-    }
-    else {
-      throw new Error(`Unsupported channel type: ${channel.type}`);
+    else if (channel.type === "redirect_m3u") {
+      const response = await fetch(channel.manifest);
+      channel.manifest = response.url;
     }
 
     await player.load(channel.manifest).then(() => {
